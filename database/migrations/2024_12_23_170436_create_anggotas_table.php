@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('anggotas', function (Blueprint $table) {
             $table->id();  // unsignedBigInteger by default
             $table->string('nama');
+            $table->string('nim');
             $table->string('email')->unique();
             $table->string('no_hp');
             $table->text('alamat');

@@ -11,7 +11,7 @@ class Organisasi extends Model
 
     protected $table = 'organisasis';
     protected $fillable = [
-        'logo', 'nama', 'deskripsi'
+        'logo', 'nama', 'deskripsi', 'kategori','visi', 'misi'
 
     ];
 }

@@ -9,22 +9,22 @@ use App\Http\Controllers\Ormawa\AdminOrmawaController;
 use App\Http\Controllers\Ormawa\AnggotaController;
 use App\Http\Controllers\Ormawa\BeritaController;
 use App\Http\Controllers\Ormawa\DivisiController;
+use App\Http\Controllers\Ormawa\PendaftaranController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\PendaftarController;
+use App\Http\Controllers\User\NewsController;
+use App\Http\Controllers\GuestController;
 use App\Models\Anggota;
 
 // Guest Route
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [GuestController::class, 'welcome'])->name('welcome');
+    Route::get('/daftar', [GuestController::class, 'pendaftaran'])->name('guest.pendaftaran');
 
-    Route::get('/ormawa', function () {
-        return view('ormawa');
-    });
+    Route::get('/orma', [GuestController::class, 'organisasi'])->name('guest.organisasi');
+    Route::get('/news', [NewsController::class, 'index'])->name('guest.berita');
+    Route::get('/login', [GuestController::class, 'login'])->name('guest.login');
 
-    Route::get('/login', function () {
-        return view('login');
-    });
 
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/post-register', [AuthController::class, 'post_register'])->name('post.register');
@@ -40,9 +40,9 @@ Route::group(['middleware' => 'admin'], function() {
     Route::get('/organisasi', [OrganisasiController::class, 'index'])->name('admin.organisasi');
     Route::get('/organisasi/create', [OrganisasiController::class, 'create'])->name('organisasi.create');
     Route::post('/organisasi/store', [OrganisasiController::class, 'store'])->name('organisasi.store');
-    Route::get('/ormawa/organisasi/detail/{id}', [OrganisasiController::class, 'detail'])->name('organisasi.detail');
+    Route::get('/organisasi/detail/{id}', [OrganisasiController::class, 'detail'])->name('organisasi.detail');
     Route::get('/organisasi/edit/{id}', [OrganisasiController::class, 'edit'])->name('organisasi.edit');
-    Route::post('/organisasi/update/{id}', [OrganisasiController::class, 'update'])->name('organisasi.update');
+    Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])->name('organisasi.update');
     Route::delete('/organisasi/delete/{id}', [OrganisasiController::class, 'delete'])->name('organisasi.delete');
 
     // Admin Ormawa Route
@@ -61,15 +61,6 @@ Route::group(['middleware' => 'admin'], function() {
 Route::group(['middleware' => 'ormawa'], function() {
     Route::get('/ormawa', [AdminOrmawaController::class, 'dashboard'])->name('ormawa.dashboard');
 
-    // Informasi Route
-    Route::get('/informasi', [DivisiController::class, 'index'])->name('ormawa.informasi');
-    Route::get('/informasi/create', [DivisiController::class, 'create'])->name('informasi.create');
-    Route::post('/informasi/store', [DivisiController::class, 'store'])->name('informasi.store');
-    Route::get('/ormawa/informasi/detail/{id}', [DivisiController::class, 'detail'])->name('informasi.detail');
-    Route::get('/informasi/edit/{id}', [DivisiController::class, 'edit'])->name('informasi.edit');
-    Route::post('/informasi/update/{id}', [DivisiController::class, 'update'])->name('informasi.update');
-    Route::delete('/informasi/delete/{id}', [DivisiController::class, 'delete'])->name('informasi.delete');
-
     // Divisi Route
     Route::get('/divisi', [DivisiController::class, 'index'])->name('ormawa.divisi');
     Route::get('/divisi/create', [DivisiController::class, 'create'])->name('divisi.create');
@@ -85,7 +76,7 @@ Route::group(['middleware' => 'ormawa'], function() {
     Route::post('/anggota/store', [AnggotaController::class, 'store'])->name('anggota.store');
     Route::get('/ormawa/anggota/detail/{id}', [AnggotaController::class, 'detail'])->name('anggota.detail');
     Route::get('/anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota.edit');
-    Route::post('/anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota.update');
+    Route::put('/anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota.update');
     Route::delete('/anggota/delete/{id}', [AnggotaController::class, 'delete'])->name('anggota.delete');
 
     // Berita Route
@@ -97,13 +88,33 @@ Route::group(['middleware' => 'ormawa'], function() {
     Route::post('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
     Route::delete('/berita/delete/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
 
-    Route::get('/ormawa-logout', [AdminOrmawaController::class, 'ormawa_logout'])->name('ormawa.logout');
+    // Pendaftaran Route
+    Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('ormawa.pendaftaran');
+    Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
+    Route::post('/pendaftaran/store', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+    Route::get('/ormawa/pendaftaran/detail/{id}', [PendaftaranController::class, 'detail'])->name('pendaftaran.detail');
+    Route::get('/pendaftaran/edit/{id}', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
+    Route::post('/pendaftaran/update/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
+    Route::delete('/pendaftaran/delete/{id}', [PendaftaranController::class, 'delete'])->name('pendaftaran.delete');
+
+    Route::get('/ormawa-logout', [AuthController::class, 'ormawa_logout'])->name('ormawa.logout');
 
 });
 
 // User Route
 Route::group(['middleware' => 'web'], function() {
     Route::get('/user', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/user/organisasi', [UserController::class, 'organisasi'])->name('user.organisasi');
+    Route::get('/user/organisasi/{id}', [UserController::class, 'detail'])->name('organisasi.detail');
+
+    Route::get('/user/daftar', [UserController::class, 'pendaftaran'])->name('user.pendaftaran');
+    Route::get('/user/daftar/create', [PendaftarController::class, 'create'])->name('pendaftaran.create');
+    Route::post('/user/pendaftaran/store', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+
+    Route::get('/user/berita', [NewsController::class, 'index'])->name('user.berita');
+    Route::get('/berita/{id}', [NewsController::class, 'detail'])->name('berita.detail');
+
+    Route::get('/user/kegiatan', [UserController::class, 'kegiatan'])->name('user.kegiatan');
 //     Route::get('/user/flashsale', [UserController::class, 'fs'])->name('user.fs');
 
 //     Route::get('/user/product/detail/{id}', [UserController::class, 'detail_product'])->name('user.detail.product');
@@ -111,3 +122,4 @@ Route::group(['middleware' => 'web'], function() {
 
     Route::get('/user-logout', [AuthController::class, 'user_logout'])->name('user.logout');
 });
+

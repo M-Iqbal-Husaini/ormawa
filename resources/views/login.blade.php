@@ -20,6 +20,68 @@
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/nouislider.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/main.css') }}">
+    <style>
+        /* Custom Styling */
+        .login_box_area {
+            background: #f9f9ff;
+            padding: 50px 0;
+        }
+
+        .login_form_inner {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .login_form_inner h3 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .login_form .form-control {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px 20px;
+            font-size: 14px;
+        }
+
+        .login_form .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        .primary-btn {
+            background: #007bff;
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+
+        .primary-btn:hover {
+            background: #0056b3;
+        }
+
+        .login_form a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login_form a:hover {
+            text-decoration: underline;
+        }
+
+        .section_gap {
+            padding: 60px 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,19 +90,23 @@
     <!-- Login Box Area -->
     <section class="login_box_area section_gap">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="login_form_inner">
                         <h3>Log in to enter</h3>
+
                         <form class="row login_form" action="/post-login" method="POST" id="contactForm" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                             </div>
-                            <a>Belum Punya Akun?</a><a class="nav-link" href="{{ route('register') }}">Register</a>
+                            <div class="col-md-12 form-group d-flex justify-content-between">
+                                <a>Belum Punya Akun?</a>
+                                <a href="{{ route('register') }}">Register</a>
+                            </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" class="primary-btn">Log In</button>
                             </div>

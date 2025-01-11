@@ -78,7 +78,7 @@
                                 </select>
                                 <div class="invalid-feedback">Kolom ini harus di isi!</div>
                             </div>
-                            <input type="hidden" name="id_organisasi" value="{{ $idOrganisasi }}"> <!-- Menyertakan id_organisasi yang sudah ada -->
+                            <input type="hidden" name="id_organisasi" value="{{ $id_organisasi }}"> <!-- Menyertakan id_organisasi yang sudah ada -->
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select id="status" name="status" class="form-control" required>

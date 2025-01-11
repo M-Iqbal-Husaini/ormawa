@@ -20,18 +20,20 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Anggota</th>
-                            <th>Divisi</th>
-                            <th>Organisasi</th>
+                            <th>Jabatan </th>
+                            <th>Tahun Kepengurusan </th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($data as $key => $item)
+                        @php $no = 0; @endphp
+                        @forelse ($data as $item)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $item->nama_anggota }}</td>
-                                <td>{{ $item->divisi->nama_divisi }}</td>
-                                <td>{{ $item->organisasi->nama }}</td>
+                                <td>{{ $no += 1 }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->jabatan }}</td>
+                                <td>{{ $item->tahun_kepengurusan }}</td>
+
                                 <td>
                                     <a href="{{ route('anggota.detail', $item->id) }}" class="badge badge-info">Detail</a>
                                     <a href="{{ route('anggota.edit', $item->id) }}" class="badge badge-warning">Edit</a>

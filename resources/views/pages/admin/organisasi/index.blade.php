@@ -20,19 +20,28 @@
                         <th>#</th>
                         <th>Logo Organisasi</th>
                         <th>Nama Organisasi</th>
+                        <th>Kategori</th>
                         <th>Deskripsi Organisasi</th>
+                        <th>Actions</th>
                     </tr>
                     @php $no = 0; @endphp
                     @forelse ($organisasi as $item)
                         <tr>
                             <td>{{ $no += 1 }}</td>
-                            <td>{{ $item->logo }}</td>
-                            <td>{{ $item->nama }} </td>
-                            <td>{{ $item->deskripsi }}</td>
+                            <td>
+                                @if ($item->logo)
+                                    <img src="{{ asset('storage/' . $item->logo) }}" alt="Logo Organisasi" style="max-height: 100px;">
+                                @else
+                                    <span>-</span>
+                                @endif
+                            </td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->kategori }}</td>
+                            <td>{{  \Illuminate\Support\Str::words($item->deskripsi, 10) }}</td>
                             <td>
                                 <a href="{{ route('organisasi.detail', $item->id) }}" class="badge badge-info">Detail</a>
                                 <a href="{{ route('organisasi.edit', $item->id) }}" class="badge badge-warning">Edit</a>
-                                <form action="{{ route('organisasi.delete', $item->id) }}" method="POST" style="display: inline;" >
+                                <form action="{{ route('organisasi.delete', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <a href="javascript:void(0);" class="badge badge-danger" onclick="this.closest('form').submit();">Hapus</a>
@@ -41,7 +50,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Organisasi Kosong</td>
+                            <td colspan="5" class="text-center">Data Organisasi Kosong</td>
                         </tr>
                     @endforelse
                 </table>

@@ -5,8 +5,8 @@
 ## Clone the Repository
 
 ```sh
-git clone https://github.com/M-Iqbal-Husaini/ICIF.git
-cd ICIF
+git clone https://github.com/M-Iqbal-Husaini/ormawa.git
+cd ormawa
 ```
 
 ## Install Composer
@@ -56,6 +56,7 @@ php artisan serve
 npm run dev
 ```
 
+Untuk Akses Admin Ormawa Harus login ke Super Admin dulu-> Create Organisasi -> Create Admin Ormawa Berdasarkan Organisasi yang telah dibuat.
 
 Now, you can access ICIF application by visiting `http://localhost:8000` in your web browser.
 "# ICIF" 

@@ -20,12 +20,27 @@
                     <div class="article-header">
                         <div class="article-image" data-background="{{asset('images/' . $organiasi->logo) }}"></div>
                     </div>
-                <div class="article-details">
-                    <div class="article-category"><a href="#">{{ $organiasi->nama }}</a><div class="bullet"></div> <a href="#">{{ $data->category }}</a></div>
-                    <p>
-                        {{ $organiasi->deskripsi }}
-                    </p>
-                </div>
+                    <div class="article-category">
+                        <a href="#">{{ $organiasi->nama }}</a>
+                        <div class="bullet"></div>
+                        <a href="#">{{ $organiasi->kategori }}</a>
+                    </div>
+                    <div class="article-details">
+                        <div class="article-category"><a href="#">{{ $organiasi->nama }}</a><div class="bullet"></div> <a href="#">{{ $data->category }}</a></div>
+                        <p>
+                            {{ $organiasi->deskripsi }}
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Visi:</h5>
+                            <p>{{ $organisasi->visi }}</p>
+                        </div>
+                        <div class="col-6">
+                            <h5>Misi:</h5>
+                            <p>{{ $organisasi->misi }}</p>
+                        </div>
+                    </div>
                 </article>
             </div>
         </div>

@@ -23,6 +23,14 @@ return new class extends Migration
         Schema::table('anggotas', function (Blueprint $table) {
             $table->foreign('id_organisasi')->references('id')->on('organisasis')->onDelete('cascade');
         });
+
+        Schema::table('pendaftarans', function (Blueprint $table) {
+            $table->foreign('id_divisi')->references('id')->on('organisasis')->onDelete('cascade');
+        });
+
+        Schema::table('pendaftarans', function (Blueprint $table) {
+            $table->foreign('id_organisasi')->references('id')->on('organisasis')->onDelete('cascade');
+        });
     }
 
 

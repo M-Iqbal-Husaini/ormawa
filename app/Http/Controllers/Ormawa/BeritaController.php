@@ -7,15 +7,26 @@ use App\Models\Berita;
 use App\Models\Organisasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class BeritaController extends Controller
 {
     public function index()
     {
-        $berita = Berita::with('organisasi')->get();
+        $id_organisasi = session('id_organisasi');
+
+        // Cek apakah id_organisasi tersedia dalam sesi
+        if (!$id_organisasi) {
+            return redirect('/login')->withErrors('ID organisasi tidak ditemukan dalam sesi. Silakan login ulang.');
+        }
+
+        // Filter berita berdasarkan id_organisasi
+        $berita = Berita::where('id_organisasi', $id_organisasi)->get();
+
         return view('pages.ormawa.berita.index', compact('berita'));
     }
+
 
     public function create()
     {
@@ -30,12 +41,18 @@ class BeritaController extends Controller
             'deskripsi' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'penulis' => 'required|string|max:255',
-            'id_organisasi' => 'required|exists:organisasis,id',
         ]);
 
         if ($validator->fails()) {
             Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
             return redirect()->back();
+        }
+
+        // Mengambil id_organisasi dari session
+        $id_organisasi = session('id_organisasi');
+
+        if (!$id_organisasi) {
+            return redirect('/login')->withErrors('ID organisasi tidak ditemukan dalam sesi. Silakan login ulang.');
         }
 
         // Proses upload gambar
@@ -48,12 +65,12 @@ class BeritaController extends Controller
             'deskripsi' => $request->deskripsi,
             'image' => $imagePath ?? null, // Jika ada gambar, simpan pathnya
             'penulis' => $request->penulis,
-            'id_organisasi' => $request->id_organisasi,
+            'id_organisasi' => $id_organisasi, // Menggunakan session id_organisasi
         ]);
 
         if ($berita) {
             Alert::success('Berhasil!', 'Berita berhasil ditambahkan!');
-            return redirect()->route('ormawa.berita.index');
+            return redirect()->route('ormawa.berita');
         } else {
             Alert::error('Gagal!', 'Berita gagal ditambahkan');
             return redirect()->back();

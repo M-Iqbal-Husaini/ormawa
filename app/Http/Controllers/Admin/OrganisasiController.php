@@ -7,7 +7,7 @@ use App\Models\Organisasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class OrganisasiController extends Controller
@@ -21,34 +21,37 @@ class OrganisasiController extends Controller
 
     public function create()
     {
-        $organisasi = Organisasi::all();
-
         return view('pages.admin.organisasi.create');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'logo' => 'nullable|mimes:png,jpeg,jpg',
+            'logo' => 'nullable|mimes:png,jpeg,jpg|max:2048',
             'nama' => 'required',
             'deskripsi' => 'required',
+            'kategori' => 'required',
+            'visi' => 'required',
+            'misi' => 'required',
         ]);
 
         if ($validator->fails()) {
             Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('images/logo', $imageName);
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
         $organisasi = Organisasi::create([
-            'logo' => $request->logo,
+            'logo' => $logoPath,
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
+            'kategori' => $request->kategori,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
         ]);
 
         if ($organisasi) {
@@ -70,35 +73,36 @@ class OrganisasiController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'logo' => 'nullable|mimes:png,jpeg,jpg',
+            'logo' => 'nullable|mimes:png,jpeg,jpg|max:2048',
             'nama' => 'required',
             'deskripsi' => 'required',
+            'kategori' => 'required',
+            'visi' => 'required',
+            'misi' => 'required',
         ]);
 
         if ($validator->fails()) {
             Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $organisasi = Organisasi::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            $oldPath = public_path('images/logo' . $organisasi->logo);
-            if (File::exists($oldPath)) {
-                File::delete($oldPath);
+        $logoPath = $organisasi->logo;
+        if ($request->hasFile('logo')) {
+            if ($logoPath && Storage::exists('public/' . $logoPath)) {
+                Storage::delete('public/' . $logoPath);
             }
-
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('images/', $imageName);
-        } else {
-            $imageName = $organisasi->logo;
+            $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
         $organisasi->update([
-            'logo' => $request->logo,
+            'logo' => $logoPath,
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
+            'kategori' => $request->kategori,
+            'visi' => $request->visi,
+            'misi' => $request->misi,
         ]);
 
         if ($organisasi) {
@@ -110,16 +114,14 @@ class OrganisasiController extends Controller
         }
     }
 
-    public function detail($id)
-    {
-        $organisasi = Organisasi::all();
-
-        return view('pages.admin.organisasi.detail', compact('organisasi'));
-    }
-
     public function delete($id)
     {
         $organisasi = Organisasi::findOrFail($id);
+
+        if ($organisasi->logo && Storage::exists('public/' . $organisasi->logo)) {
+            Storage::delete('public/' . $organisasi->logo);
+        }
+
         $organisasi->delete();
 
         if ($organisasi) {
