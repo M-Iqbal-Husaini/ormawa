@@ -40,7 +40,7 @@
         <div class="bg-gray-900 bg-opacity-80 rounded-lg p-6">
             <h1 class="text-3xl font-bold text-center mb-8 text-white">Berita Terbaru</h1>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @foreach ($berita)
+                @foreach ($news as $berita)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
                         <img src="{{ asset('storage/' . $berita->image) }}" alt="Gambar" class="w-full h-40 object-cover">
                         <div class="p-4">

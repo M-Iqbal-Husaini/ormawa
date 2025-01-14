@@ -17,6 +17,7 @@
     @include('sweetalert::alert')
 
     @include('layouts.user.navbar')
+    <section class="banner-area" style="background-image: url('{{ asset('assets/templates/logo/logo.jpeg') }}'); background-size: cover; background-position: center; height: 300px;"></section>
 
     @yield('content')
 

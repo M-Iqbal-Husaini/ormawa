@@ -116,7 +116,7 @@ class BeritaController extends Controller
 
         if ($berita) {
             Alert::success('Berhasil!', 'Berita berhasil diperbarui!');
-            return redirect()->route('ormawa.berita.index');
+            return redirect()->route('pages.ormawa.berita.index');
         } else {
             Alert::error('Gagal!', 'Berita gagal diperbarui!');
             return redirect()->back();
@@ -130,10 +130,10 @@ class BeritaController extends Controller
 
         if ($berita) {
             Alert::success('Berhasil', 'Berita berhasil dihapus!');
-            return redirect()->route('ormawa.berita.index');
+            return redirect()->route('ormawa.berita');
         } else {
             Alert::error('Gagal!', 'Berita gagal dihapus!');
-            return redirect()->route('ormawa.berita.index');
+            return redirect()->route('ormawa.berita');
         }
     }
 }

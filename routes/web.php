@@ -13,6 +13,7 @@ use App\Http\Controllers\Ormawa\PendaftaranController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\PendaftarController;
 use App\Http\Controllers\User\NewsController;
+use App\Http\Controllers\User\OrgController;
 use App\Http\Controllers\GuestController;
 use App\Models\Anggota;
 
@@ -103,9 +104,9 @@ Route::group(['middleware' => 'ormawa'], function() {
 
 // User Route
 Route::group(['middleware' => 'web'], function() {
-    Route::get('/user', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/user/organisasi', [UserController::class, 'organisasi'])->name('user.organisasi');
-    Route::get('/user/organisasi/{id}', [UserController::class, 'detail'])->name('organisasi.detail');
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/organisasi', [OrgController::class, 'index'])->name('user.organisasi');
+    Route::get('/user/organisasi/{id}', [OrgController::class, 'detail'])->name('organisasi.detail');
 
     Route::get('/user/daftar', [UserController::class, 'pendaftaran'])->name('user.pendaftaran');
     Route::get('/user/daftar/create', [PendaftarController::class, 'create'])->name('pendaftaran.create');

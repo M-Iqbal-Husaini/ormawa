@@ -45,13 +45,16 @@ class OrganisasiController extends Controller
             $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
+        // Mengubah misi menjadi array
+        $misiArray = explode("\n", $request->misi);
+
         $organisasi = Organisasi::create([
             'logo' => $logoPath,
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'kategori' => $request->kategori,
             'visi' => $request->visi,
-            'misi' => $request->misi,
+            'misi' => json_encode($misiArray), // Menyimpan misi dalam format JSON
         ]);
 
         if ($organisasi) {
@@ -62,6 +65,7 @@ class OrganisasiController extends Controller
             return redirect()->back();
         }
     }
+
 
     public function edit($id)
     {
@@ -96,13 +100,16 @@ class OrganisasiController extends Controller
             $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
+        // Mengubah misi menjadi array
+        $misiArray = explode("\n", $request->misi);
+
         $organisasi->update([
             'logo' => $logoPath,
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'kategori' => $request->kategori,
             'visi' => $request->visi,
-            'misi' => $request->misi,
+            'misi' => json_encode($misiArray), // Menyimpan misi dalam format JSON
         ]);
 
         if ($organisasi) {
@@ -113,6 +120,7 @@ class OrganisasiController extends Controller
             return redirect()->back();
         }
     }
+
 
     public function delete($id)
     {

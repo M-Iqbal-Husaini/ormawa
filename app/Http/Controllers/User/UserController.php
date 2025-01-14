@@ -19,12 +19,6 @@ class UserController extends Controller
         return view('pages.user.index', compact('organisasi'));
     }
 
-    public function organisasi()
-    {
-        $organisasi = Organisasi::all();
-        return view('pages.user.organisasi.index', compact('organisasi'));
-    }
-
     public function pendaftaran()
     {
         $organisasi = Organisasi::all();
