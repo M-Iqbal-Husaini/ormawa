@@ -10,6 +10,7 @@ use App\Http\Controllers\Ormawa\AnggotaController;
 use App\Http\Controllers\Ormawa\BeritaController;
 use App\Http\Controllers\Ormawa\DivisiController;
 use App\Http\Controllers\Ormawa\PendaftaranController;
+use App\Http\Controllers\Ormawa\LinkController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\PendaftarController;
 use App\Http\Controllers\User\NewsController;
@@ -19,7 +20,7 @@ use App\Models\Anggota;
 
 // Guest Route
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', [GuestController::class, 'welcome'])->name('welcome');
+    Route::get('/', [GuestController::class, 'index'])->name('guest.index');
     Route::get('/daftar', [GuestController::class, 'pendaftaran'])->name('guest.pendaftaran');
 
     Route::get('/orma', [GuestController::class, 'organisasi'])->name('guest.organisasi');
@@ -97,6 +98,15 @@ Route::group(['middleware' => 'ormawa'], function() {
     Route::get('/pendaftaran/edit/{id}', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
     Route::post('/pendaftaran/update/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
     Route::delete('/pendaftaran/delete/{id}', [PendaftaranController::class, 'delete'])->name('pendaftaran.delete');
+
+    // Wa Link
+    Route::get('whatsapp', [LinkController::class, 'index'])->name('ormawa.whatsapp');
+    Route::get('whatsapp/create', [LinkController::class, 'create'])->name('whatsapp.create');
+    Route::post('whatsapp', [LinkController::class, 'store'])->name('whatsapp.store');
+    Route::get('whatsapp/{id}/edit', [LinkController::class, 'edit'])->name('ormawa.whatsapp.edit');
+    Route::put('whatsapp/{id}', [LinkController::class, 'update'])->name('ormawa.whatsapp.update');
+    Route::delete('whatsapp/{id}', [LinkController::class, 'delete'])->name('ormawa.whatsapp.delete');
+
 
     Route::get('/ormawa-logout', [AuthController::class, 'ormawa_logout'])->name('ormawa.logout');
 

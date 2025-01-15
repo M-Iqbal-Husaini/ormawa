@@ -48,7 +48,7 @@ class AuthController extends Controller
             return redirect()->route('ormawa.dashboard');
         } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             toast('Selamat datang!', 'success');
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.index');
         } else {
             Alert::error('Login Gagal!', 'Email atau password tidak valid!');
             return redirect()->back();

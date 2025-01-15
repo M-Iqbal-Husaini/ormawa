@@ -9,14 +9,16 @@ use App\Models\User;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Admin;
 use App\Models\Divisi;
-use App\Models\Ormawa;
+use App\Models\Berita;
 
 class UserController extends Controller
 {
     public function index()
     {
+        $news = Berita::latest()->take(3)->get();
+
         $organisasi = Organisasi::all();
-        return view('pages.user.index', compact('organisasi'));
+        return view('pages.user.index', compact('organisasi','news'));
     }
 
     public function pendaftaran()

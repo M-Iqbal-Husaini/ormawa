@@ -23,6 +23,9 @@
             <li class="{{ Route::is('pendaftaran*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('ormawa.pendaftaran') }}"><i class="fas fa-address-book"></i> <span>Pendaftaran</span></a>
             </li>
+            <li class="{{ Route::is('whatsapp*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('ormawa.whatsapp') }}"><i class="fas fa-address-book"></i> <span>Link WA</span></a>
+            </li>
         </ul>
     </aside>
 </div>

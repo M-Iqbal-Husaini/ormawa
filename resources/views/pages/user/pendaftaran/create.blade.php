@@ -9,7 +9,7 @@
             <!-- Nama -->
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="nama">Nama</label>
+                    <label for="nama">Nama Lengkap</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" required>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <!-- Prodi -->
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="prodi">Prodi</label>
+                    <label for="prodi">Program Studi</label>
                     <input type="text" class="form-control" id="prodi" name="prodi" value="{{ old('prodi') }}" required>
                 </div>
             </div>
@@ -98,9 +98,21 @@
             </div>
         </div>
 
+        <!-- Motivasi -->
+        <div class="form-group">
+            <label for="motivasi">Motivasi Masuk Organisasi</label>
+            <textarea class="form-control" id="motivasi" name="motivasi" rows="3" required>{{ old('motivasi') }}</textarea>
+        </div>
+
+        <!-- CV -->
+        <div class="form-group">
+            <label for="cv">Upload CV</label>
+            <input type="file" class="form-control" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+        </div>
+
         <!-- Submit Button -->
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary btn-lg px-4 py-2">
                 <i class="fas fa-paper-plane"></i> Daftar
             </button>
         </div>

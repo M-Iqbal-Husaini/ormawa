@@ -11,3 +11,15 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 <script src="{{ asset('assets/templates/user/js/gmaps.min.js') }}"></script>
 <script src="{{ asset('assets/templates/user/js/main.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const words = ["Polbeng", "Mahasiswa Kreatif", "Tunjukan Potensimu!"];
+        const textElement = document.querySelector(".animated-text");
+        let index = 0;
+
+        textElement.addEventListener("animationiteration", () => {
+            index = (index + 1) % words.length;
+            textElement.textContent = words[index];
+        });
+    });
+</script>

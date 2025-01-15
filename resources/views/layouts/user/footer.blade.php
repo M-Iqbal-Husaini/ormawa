@@ -1,15 +1,36 @@
 <footer class="footer-area section_gap">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <img src="{{asset('assets/templates/user/img/logo.png')}}" alt="">
+                <div class="single-footer-widget">
+                    <h6>ORMAWA</h6>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-footer-widget">
+                    <h6>Links</h6>
+                    <ul>
+                        <li><a href="{{route('user.pendaftaran')}}"><i class="fas fa-chevron-right"></i> Pendaftaran</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Berita</a></li>
+                        <li><a href="{{route('user.kegiatan')}}"><i class="fas fa-chevron-right"></i> Kegiatan</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-footer-widget">
+                    <h6>Alamat</h6>
+                    <p>
+                        F552+G9C, Sungai Alam, Kec. Bengkalis, Kabupaten Bengkalis, Riau 28714
+                    </p>
+                </div>
+            </div>
+        </div>
         <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-            <p class="footer-text m-0">
-
-                Copyright &copy:
-                <script>
-                    document.write(new Date().getFullYear());
-                </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i>
-                by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-
-            </p>
+            <p class="footer-text m-0">&copy; 2024 Copyright by Bebas. All rights reserved</p>
         </div>
     </div>
 </footer>

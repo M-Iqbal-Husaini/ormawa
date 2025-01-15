@@ -21,7 +21,7 @@ class OrgController extends Controller
         // Pastikan misi adalah array, jika disimpan sebagai JSON
         $organisasi->misi = json_decode($organisasi->misi);
 
-        return view('organisasi.detail', compact('organisasi'));
+        return view('pages.user.organisasi.detail', compact('organisasi'));
     }
 
 }

@@ -25,6 +25,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_divisi')->nullable();
             $table->unsignedBigInteger('id_organisasi')->nullable();
             $table->enum('status', ['aktif', 'non aktif'])->default('aktif');
+            $table->text('motivasi');
+            $table->string('cv');
+            $table->enum('status_daftar', ['Pending', 'Diterima', 'Ditolak'])->default('Pending');
             $table->timestamps();
         });
     }

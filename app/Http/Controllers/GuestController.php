@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Berita;
 
 class GuestController extends Controller
 {
-    public function welcome()
+    public function index()
     {
-        return view('welcome');
+        $news = Berita::latest()->take(3)->get();
+
+        return view('index', compact('news'));
     }
 
     public function register()

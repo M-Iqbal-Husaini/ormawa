@@ -17,7 +17,7 @@
     <div class="mt-6">
         <h2 class="text-2xl font-bold">Misi</h2>
         <ul class="list-disc pl-6 mt-2">
-            @foreach (json_decode($organisasi->misi) as $misi)
+            @foreach (( $organisasi->misi) as $misi)
                 <li class="text-gray-600">{{ $misi }}</li>
             @endforeach
         </ul>
