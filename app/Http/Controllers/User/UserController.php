@@ -23,9 +23,8 @@ class UserController extends Controller
 
     public function pendaftaran()
     {
-        $organisasi = Organisasi::all();
-        $divisi = Divisi::all();
-        return view('pages.user.pendaftaran.create', compact('organisasi', 'divisi'));
+        $organisasis = Organisasi::all();
+        return view('pages.user.pendaftaran.create', compact('organisasis'));
     }
 
     public function berita()

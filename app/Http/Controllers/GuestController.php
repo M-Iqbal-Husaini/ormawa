@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Berita;
+use App\Models\Organisasi;
 
 class GuestController extends Controller
 {
@@ -23,21 +24,5 @@ class GuestController extends Controller
     {
         return view('pendaftaran');
     }
-
-    public function organisasi()
-    {
-        return view('organisasi');
-    }
-
-    public function berita()
-    {
-        return view('berita');
-    }
-
-    public function login()
-    {
-        return view('login');
-    }
-
 
 }

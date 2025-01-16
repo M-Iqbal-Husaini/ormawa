@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
-use App\Models\Berita;
-use App\Models\Organisasi;
 use Illuminate\Http\Request;
+use App\Models\Berita;
 
-class NewsController extends Controller
+class BrtController extends Controller
 {
     public function index(Request $request)
     {
@@ -18,21 +17,12 @@ class NewsController extends Controller
         ->latest()
         ->paginate(6); // Menampilkan 6 berita per halaman
 
-        return view('pages.user.berita.index', compact('news'));
+        return view('pages.guest.berita.index', compact('news'));
     }
 
     public function detail($id)
     {
         $news = Berita::with('organisasi')->findOrFail($id);
-        return view('pages.user.berita.detail', compact('news'));
+        return view('pages.guest.berita.detail', compact('news'));
     }
-    public function home()
-    {
-        // Ambil 5 berita terbaru dari model Berita
-        $news = Berita::latest()->take(3)->get();
-
-        // Kirim data ke view
-        return view('welcome', compact('news'));
-    }
-
 }

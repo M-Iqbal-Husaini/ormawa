@@ -1,39 +1,36 @@
-<footer class="bg-white dark:bg-gray-900">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div class="md:flex md:justify-between">
-            <div class="mb-6 md:mb-0">
-                <a href="#" class="flex items-center">
-                    <img src="{{ asset('assets/templates/user/img/logo.png') }}" class="h-8 me-3" alt="Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Site Name</span>
-                </a>
+<footer class="footer-area section_gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <img src="{{asset('assets/templates/user/img/logo.png')}}" alt="">
+                <div class="single-footer-widget">
+                    <h6>ORMAWA</h6>
+                    <p>
+                        Website ORMAWA Politeknik Negeri Bengkalis adalah platform digital yang menyediakan informasi tentang kegiatan dan organisasi Unit Kegiatan Mahasiswa (UKM) di kampus.
+                    </p>
+                </div>
             </div>
-            <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
-                    <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <li><a href="#" class="hover:underline">Flowbite</a></li>
-                        <li><a href="#" class="hover:underline">Tailwind CSS</a></li>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-footer-widget">
+                    <h6>Menu</h6>
+                    <ul>
+                        <li><a href="{{route('guest.login')}}"><i class="fas fa-chevron-right"></i> Pendaftaran</a></li>
+                        <li><a href="{{route('guest.berita')}}"><i class="fas fa-chevron-right"></i> Berita</a></li>
+                        <li><a href="{{route('guest.organisasi')}}"><i class="fas fa-chevron-right"></i> Organisasi</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
-                    <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <li><a href="#" class="hover:underline">GitHub</a></li>
-                        <li><a href="#" class="hover:underline">Discord</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                    <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <li><a href="#" class="hover:underline">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:underline">Terms & Conditions</a></li>
-                    </ul>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-footer-widget">
+                    <h6>Alamat</h6>
+                    <p>
+                        F552+G9C, Sungai Alam, Kec. Bengkalis, Kabupaten Bengkalis, Riau 28714
+                    </p>
                 </div>
             </div>
         </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 Site Name. All Rights Reserved.</span>
+        <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+            <p class="footer-text m-0">&copy; 2024 Copyright by Bebas. All rights reserved</p>
         </div>
     </div>
 </footer>

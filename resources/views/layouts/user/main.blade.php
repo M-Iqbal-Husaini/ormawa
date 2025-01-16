@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width-device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="{{ asset('assets/templates/user/img/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/templates/logo/LogoOrmawa.png') }}">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <meta name="author" content="CodePixar">
     <meta name="description" content="">

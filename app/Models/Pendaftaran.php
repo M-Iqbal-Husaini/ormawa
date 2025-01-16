@@ -12,9 +12,24 @@ class Pendaftaran extends Model
     protected $table = 'pendaftarans';
 
     protected $fillable = [
-        'nama', 'email', 'no_hp', 'alamat', 'prodi', 'jurusan', 'tahun_kepengurusan', 'id_divisi','id_organisasi', 
-
+        'nama',
+        'nim',
+        'email',
+        'no_hp',
+        'alamat',
+        'prodi',
+        'jurusan',
+        'jabatan',
+        'id_divisi',
+        'id_organisasi',
+        'status',
+        'motivasi',
+        'tahun_kepengurusan',
+        'cv',
+        'status_daftar',
     ];
+
+
 
     public function divisi()
     {

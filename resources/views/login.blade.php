@@ -3,13 +3,13 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="{{ asset('assets/templates/user/img/fav.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/templates/logo/LogoOrmawa.png') }}">
     <meta name="author" content="CodePixar">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Merch Store</title>
+    <title>Ormawa Polbeng</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/linearicons.css') }}">

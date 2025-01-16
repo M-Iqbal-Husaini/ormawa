@@ -1,4 +1,4 @@
-@extends('layouts.user.main')
+@extends('layouts.guest.main')
 
 @section('content')
 
@@ -62,7 +62,7 @@
             {{ Str::limit($berita->deskripsi, 100) }}
           </p>
           <!-- Detail as clickable button -->
-          <a href="{{ route('berita.detail', $berita->id) }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white text-xs font-medium rounded-lg hover:bg-blue-600 transition duration-300">
+          <a href="{{ route('guest.berita.detail', $berita->id) }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white text-xs font-medium rounded-lg hover:bg-blue-600 transition duration-300">
             Detail
           </a>
         </div>

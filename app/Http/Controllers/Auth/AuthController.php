@@ -13,8 +13,9 @@ use App\Models\Ormawa;
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
-        return view('user.login');
+    public function login()
+    {
+        return view('login');
     }
 
     public function post_login(Request $request)
@@ -46,7 +47,7 @@ class AuthController extends Controller
 
             toast("Selamat datang admin ormawa!", 'success');
             return redirect()->route('ormawa.dashboard');
-        } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        } elseif (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
             toast('Selamat datang!', 'success');
             return redirect()->route('user.index');
         } else {
@@ -70,7 +71,7 @@ class AuthController extends Controller
     }
 
     public function user_logout() {
-        Auth::logout();
+        Auth::guard('user')->logout();
         toast('Berhasil logout!', 'success');
         return redirect('/');
     }

@@ -16,22 +16,22 @@ use App\Http\Controllers\User\PendaftarController;
 use App\Http\Controllers\User\NewsController;
 use App\Http\Controllers\User\OrgController;
 use App\Http\Controllers\GuestController;
-use App\Models\Anggota;
+use App\Http\Controllers\Guest\OrgzController;
+use App\Http\Controllers\Guest\BrtController;
 
 // Guest Route
-Route::middleware(['guest'])->group(function () {
+Route::group(['middleware' => 'web'], function() {
     Route::get('/', [GuestController::class, 'index'])->name('guest.index');
-    Route::get('/daftar', [GuestController::class, 'pendaftaran'])->name('guest.pendaftaran');
+    Route::get('/guest/orma', [OrgzController::class, 'index'])->name('guest.organisasi');
+    Route::get('/guest/orma/{id}', [OrgzController::class, 'detail'])->name('guest.organisasi.detail');
+    Route::get('/guest/news', [BrtController::class, 'index'])->name('guest.berita');
+    Route::get('/guest/news/{id}', [BrtController::class, 'detail'])->name('guest.berita.detail');
 
-    Route::get('/orma', [GuestController::class, 'organisasi'])->name('guest.organisasi');
-    Route::get('/news', [NewsController::class, 'index'])->name('guest.berita');
-    Route::get('/login', [GuestController::class, 'login'])->name('guest.login');
-
+    Route::get('/login', [AuthController::class, 'login'])->name('guest.login');
+    Route::post('/post-login', [AuthController::class, 'post_login']);
 
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/post-register', [AuthController::class, 'post_register'])->name('post.register');
-
-    Route::post('/post-login', [AuthController::class, 'post_login']);
 });
 
 // Admin Route
@@ -113,23 +113,20 @@ Route::group(['middleware' => 'ormawa'], function() {
 });
 
 // User Route
-Route::group(['middleware' => 'web'], function() {
+Route::group(['middleware' => 'user'], function() {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
     Route::get('/user/organisasi', [OrgController::class, 'index'])->name('user.organisasi');
     Route::get('/user/organisasi/{id}', [OrgController::class, 'detail'])->name('organisasi.detail');
 
     Route::get('/user/daftar', [UserController::class, 'pendaftaran'])->name('user.pendaftaran');
-    Route::get('/user/daftar/create', [PendaftarController::class, 'create'])->name('pendaftaran.create');
-    Route::post('/user/pendaftaran/store', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+    Route::get('/pendaftaran/create/{id_organisasi?}', [PendaftarController::class, 'create'])->name('pendaftaran.create');
+    Route::post('/user/pendaftaran/store', [PendaftarController::class, 'store'])->name('pendaftaran.store');
+    Route::get('/pendaftaran/get-divisi/{id}', [PendaftarController::class, 'divisi']);
+    Route::get('/pendaftaran/success', [PendaftarController::class, 'success'])->name('pendaftaran.success');
 
     Route::get('/user/berita', [NewsController::class, 'index'])->name('user.berita');
     Route::get('/berita/{id}', [NewsController::class, 'detail'])->name('berita.detail');
-
-    Route::get('/user/kegiatan', [UserController::class, 'kegiatan'])->name('user.kegiatan');
-//     Route::get('/user/flashsale', [UserController::class, 'fs'])->name('user.fs');
-
-//     Route::get('/user/product/detail/{id}', [UserController::class, 'detail_product'])->name('user.detail.product');
-//     Route::get('/product/purchase/{productId}/{userId}', [UserController::class, 'purchase']);
 
     Route::get('/user-logout', [AuthController::class, 'user_logout'])->name('user.logout');
 });

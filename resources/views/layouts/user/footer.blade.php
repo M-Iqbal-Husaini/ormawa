@@ -6,17 +6,17 @@
                 <div class="single-footer-widget">
                     <h6>ORMAWA</h6>
                     <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s.
+                        Website ORMAWA Politeknik Negeri Bengkalis adalah platform digital yang menyediakan informasi tentang kegiatan dan organisasi Unit Kegiatan Mahasiswa (UKM) di kampus.
                     </p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="single-footer-widget">
-                    <h6>Links</h6>
+                    <h6>Menu</h6>
                     <ul>
                         <li><a href="{{route('user.pendaftaran')}}"><i class="fas fa-chevron-right"></i> Pendaftaran</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Berita</a></li>
-                        <li><a href="{{route('user.kegiatan')}}"><i class="fas fa-chevron-right"></i> Kegiatan</a></li>
+                        <li><a href="{{route('user.berita')}}"><i class="fas fa-chevron-right"></i> Berita</a></li>
+                        <li><a href="{{route('user.organisasi')}}"><i class="fas fa-chevron-right"></i> Berita</a></li>
                     </ul>
                 </div>
             </div>

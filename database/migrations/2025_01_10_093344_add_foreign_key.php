@@ -25,7 +25,7 @@ return new class extends Migration
         });
 
         Schema::table('pendaftarans', function (Blueprint $table) {
-            $table->foreign('id_divisi')->references('id')->on('organisasis')->onDelete('cascade');
+            $table->foreign('id_divisi')->references('id')->on('divisis')->onDelete('cascade');
         });
 
         Schema::table('pendaftarans', function (Blueprint $table) {

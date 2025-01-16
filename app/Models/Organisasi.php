@@ -14,4 +14,9 @@ class Organisasi extends Model
         'logo', 'nama', 'deskripsi', 'kategori','visi', 'misi'
 
     ];
+
+    public function divisis()
+    {
+        return $this->hasMany(Divisi::class, 'id_organisasi');
+    }
 }
