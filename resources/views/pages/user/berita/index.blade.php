@@ -42,16 +42,26 @@
     </form>
   </div>
 
+  <!-- Filter Kategori -->
+  <div class="mb-6 text-center">
+    <button class="filter-button bg-blue-500 text-white px-4 py-2 rounded-lg m-2" data-category="all">All Categories</button>
+    @foreach ($categories as $category)
+      <button class="filter-button bg-gray-200 text-black px-4 py-2 rounded-lg m-2" data-category="{{ $category }}">
+        {{ $category }}
+      </button>
+    @endforeach
+  </div>
+
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto max-w-6xl">
     @foreach ($news as $berita)
-      <div class="berita-item bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:scale-105" data-category="{{ $berita->kategori }}">
+      <div class="berita-item bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:scale-105" data-category="{{ $berita->organisasi->kategori }}">
         <img src="{{ asset('storage/' . $berita->image) }}" alt="Gambar Berita {{ $berita->judul }}" class="w-full h-32 object-cover">
         <div class="p-3">
           <div class="text-gray-500 text-xs mb-2">
             <i class="far fa-calendar-alt"></i>
             {{ $berita->created_at->format('d M Y') }}
             <i class="fas fa-user ml-2"></i>
-            {{ $berita->penulis }}
+            {{ $berita->organisasi->kategori }}
           </div>
           <h2 class="text-sm font-semibold mb-1">
             <a href="{{ route('berita.detail', $berita->id) }}" class="text-gray-800 hover:text-blue-500 transition">
@@ -76,14 +86,11 @@
     @endif
   </div>
 
-  <section class="container mx-auto px-4 py-6">
-  </div>
   <div class="mt-8 flex justify-center">
     <div class="inline-flex">
         {{ $news->links('vendor.pagination.tailwind') }}
     </div>
   </div>
-</section>
 </section>
 
 @endsection

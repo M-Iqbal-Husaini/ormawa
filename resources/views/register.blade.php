@@ -5,14 +5,14 @@
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/templates/user/img/fav.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/templates/logo/LogoOrmawa.png') }}">
     <!-- Meta Information -->
     <meta name="author" content="CodePixar">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Merch Store</title>
+    <title>Ormawa Polbeng</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/linearicons.css') }}">
@@ -25,11 +25,6 @@
     <link rel="stylesheet" href="{{ asset('assets/templates/user/css/main.css') }}">
     <style>
         /* Custom Styling */
-        .login_box_area {
-            background: #f9f9ff;
-            padding: 50px 0;
-        }
-
         .login_form_inner {
             background: #fff;
             border-radius: 10px;
@@ -75,6 +70,37 @@
         .section_gap {
             padding: 60px 0;
         }
+
+        .login_box_area {
+            background: url('{{ asset('assets/templates/logo/logo.jpeg') }}') no-repeat center center/cover;
+            padding: 7vw; /* Padding awal untuk viewport lebar */
+        }
+
+        @media (max-width: 768px) {
+            .login_box_area {
+                padding: 15vw; /* Padding lebih besar untuk perangkat kecil */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login_box_area {
+                padding: 20vw; /* Padding lebih besar untuk perangkat sangat kecil */
+            }
+        }
+
+
+        .login_form_inner {
+            background: rgba(255, 255, 255, 0.9); /* Tambahkan transparansi untuk kontras */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .login_form_inner h3 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -89,13 +115,17 @@
                         <form class="row login_form" action="{{ route('post.register') }}" method="POST" id="contactForm" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            </div>
+                            <div class="col-md-12 form-group d-flex justify-content-between">
+                                <a>Sudah Punya Akun?</a>
+                                <a href="{{ route('guest.login') }}" class="text-primary">Login</a>
                             </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Create Account</button>

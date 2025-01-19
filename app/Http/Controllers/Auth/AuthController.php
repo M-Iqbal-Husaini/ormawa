@@ -31,7 +31,7 @@ class AuthController extends Controller
         }
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            toast("Selamat datang admin!", 'success');
+            Alert::success('Login Berhasil', 'Selamat datang, Admin!');
             return redirect()->route('admin.dashboard');
         } elseif (Auth::guard('ormawa')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::guard('ormawa')->user();
@@ -42,13 +42,12 @@ class AuthController extends Controller
                 return redirect()->back();
             }
 
-            // Simpan ID organisasi ke dalam sesi
             session(['id_organisasi' => $user->id_organisasi]);
 
-            toast("Selamat datang admin ormawa!", 'success');
+            Alert::success('Login Berhasil', "Selamat datang, Admin Ormawa!");
             return redirect()->route('ormawa.dashboard');
         } elseif (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            toast('Selamat datang!', 'success');
+            Alert::success('Login Berhasil', 'Selamat datang di Ormawa Polbeng!');
             return redirect()->route('user.index');
         } else {
             Alert::error('Login Gagal!', 'Email atau password tidak valid!');
@@ -56,12 +55,10 @@ class AuthController extends Controller
         }
     }
 
-
-
     public function admin_logout() {
         Auth::guard('admin')->logout();
         toast('Berhasil logout!', 'success');
-        return redirect('/login');
+        return redirect('/');
     }
 
     public function ormawa_logout() {
@@ -84,7 +81,7 @@ class AuthController extends Controller
     public function post_register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'nama' => 'required',
             'email' => 'required|email:dns',
             'password' => 'required|min:8|max:15',
         ]);
@@ -95,7 +92,7 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);

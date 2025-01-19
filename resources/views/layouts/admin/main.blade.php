@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" href="{{ asset('assets/templates/admin/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/templates/admin/modules/fontawesome/css/all.min.css') }}">
-
+    <link rel="shortcut icon" href="{{ asset('assets/templates/logo/LogoOrmawa.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/templates/admin/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/templates/admin/css/components.css') }}">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     @vite(['resources/css/app.css','resources/js/app.js'])
     <script>
@@ -22,6 +21,7 @@
     <title>@yield('title')</title>
 </head>
 <body>
+    @include('sweetalert::alert')
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">

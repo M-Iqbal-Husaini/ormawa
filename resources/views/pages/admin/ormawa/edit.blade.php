@@ -15,45 +15,51 @@
         <a href="{{ route('admin.ormawa') }}" class="btn btn-icon icon-left btn-warning">Kembali</a>
 
         <div class="card mt-4">
-            <form action="{{ route('admin.ormawa.update', $ormawas->id) }}"
-                  class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('ormawa.update', $ormawas->id) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 @csrf
+                @method('PUT') <!-- Menggunakan metode PUT -->
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="id_organisasi">Nama Organisasi</label>
-                                <input id="id_organisasi" type="text" class="form-control" name="id_organisasi" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!
-                                </div>
+                                <select id="id_organisasi" class="form-control" name="id_organisasi" required>
+                                    <option value="" disabled selected>Pilih Organisasi</option>
+                                    @foreach($organisasi as $org)
+                                        <option value="{{ $org->id }}" {{ $ormawas->id_organisasi == $org->id ? 'selected' : '' }}>
+                                            {{ $org->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Kolom ini harus diisi!</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="name">Nama Admin Ormawa</label>
-                                <input id="name" type="text" class="form-control" name="name" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ $ormawas->name }}" required>
+                                <div class="invalid-feedback">Kolom ini harus diisi!</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="username">Username Admin Ormawa</label>
-                                <input id="username" type="text" class="form-control" name="username" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi</div>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ $ormawas->username }}" required>
+                                <div class="invalid-feedback">Kolom ini harus diisi!</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="email">Email Admin Ormawa</label>
-                                <input id="email" type="text" class="form-control" name="email" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $ormawas->email }}" required>
+                                <div class="invalid-feedback">Kolom ini harus diisi!</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="password">Password Admin Ormawa</label>
-                                <input id="password" type="text" class="form-control" name="password" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <label for="password">Password Admin Ormawa <small>(Kosongkan jika tidak diubah)</small></label>
+                                <input id="password" type="password" class="form-control" name="password">
+                                <div class="invalid-feedback">Kolom ini harus diisi!</div>
                             </div>
                         </div>
                     </div>

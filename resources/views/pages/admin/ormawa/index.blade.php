@@ -21,7 +21,6 @@
                         <th>Nama Admin Organisasi</th>
                         <th>Username Admin Organisasi</th>
                         <th>Email Organisasi</th>
-                        <th>Passwrod Organisasi</th>
                     </tr>
                     @php $no = 0; @endphp
                     @forelse ($data as $item)
@@ -30,15 +29,24 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->username }} </td>
                             <td>{{ $item->email }}</td>
-                            <td>{{ $item->password }}</td>
                             <td>
-                                <a href="{{ route('ormawa.detail', $item->id) }}" class="badge badge-info">Detail</a>
-                                <a href="{{ route('ormawa.edit', $item->id) }}" class="badge badge-warning">Edit</a>
-                                <form action="{{ route('ormawa.delete', $item->id) }}" method="POST" style="display: inline;" >
-                                    @csrf
-                                    @method('DELETE')
-                                    <a href="javascript:void(0);" class="badge badge-danger" onclick="this.closest('form').submit();">Hapus</a>
-                                </form>
+                                <!-- Dropdown for Actions -->
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="actionDropdown{{ $item->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Aksi
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="actionDropdown{{ $item->id }}">
+                                        <a href="{{ route('ormawa.detail', $item->id) }}" class="dropdown-item"><i class="fas fa-eye"></i> Detail</a>
+                                        <a href="{{ route('ormawa.edit', $item->id) }}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
+                                        <form action="{{ route('ormawa.delete', $item->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @empty

@@ -112,4 +112,11 @@ class DivisiController extends Controller
         Alert::success('Berhasil!', 'Divisi berhasil dihapus.');
         return redirect()->route('ormawa.divisi');
     }
+
+    public function detail ($id)
+    {
+        $data = Divisi::with('organisasi')->findOrFail($id);
+
+        return view('pages.ormawa.divisi.detail', compact('data'));
+    }
 }

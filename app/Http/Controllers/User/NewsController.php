@@ -12,14 +12,26 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $news = Berita::when($search, function ($query, $search) {
-            return $query->where('judul', 'like', "%{$search}%");
-        })
-        ->latest()
-        ->paginate(6); // Menampilkan 6 berita per halaman
+        $kategoriFilter = $request->input('kategori', 'all'); // Filter kategori (default 'all')
 
-        return view('pages.user.berita.index', compact('news'));
+        // Ambil berita berdasarkan kategori dan pencarian
+        $news = Berita::when($search, function ($query, $search) {
+                return $query->where('judul', 'like', "%{$search}%");
+            })
+            ->when($kategoriFilter !== 'all', function ($query) use ($kategoriFilter) {
+                return $query->whereHas('organisasi', function ($query) use ($kategoriFilter) {
+                    $query->where('kategori', $kategoriFilter);
+                });
+            })
+            ->latest()
+            ->paginate(6);
+
+        // Ambil semua kategori dari organisasi untuk filter
+        $categories = Organisasi::distinct()->pluck('kategori');
+
+        return view('pages.user.berita.index', compact('news', 'categories', 'kategoriFilter'));
     }
+
 
     public function detail($id)
     {

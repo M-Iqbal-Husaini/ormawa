@@ -22,13 +22,13 @@ class Pendaftaran extends Model
         'jabatan',
         'id_divisi',
         'id_organisasi',
+        'id_user',
         'status',
         'motivasi',
         'tahun_kepengurusan',
         'cv',
         'status_daftar',
     ];
-
 
 
     public function divisi()
@@ -39,5 +39,10 @@ class Pendaftaran extends Model
     public function organisasi()
     {
         return $this->belongsTo(Organisasi::class, 'id_organisasi');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

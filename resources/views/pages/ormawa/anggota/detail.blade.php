@@ -5,73 +5,79 @@
     <section class="section">
         <div class="section-header">
             <h1>Detail Anggota</h1>
-
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="{{ route('ormawa.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('ormawa.anggota') }}">Anggota</a></div>
+                <div class="breadcrumb-item"><a href="{{ route('ormawa.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="{{ route('ormawa.anggota') }}">Anggota</a></div>
                 <div class="breadcrumb-item">Detail Anggota</div>
             </div>
         </div>
 
-        <a href="{{ route('ormawa.anggota') }}" class="btn btn-icon icon-left btn-warning"><i class="fas fa-arrow-left"></i> Kembali</a>
+        <a href="{{ route('ormawa.anggota') }}" class="btn btn-icon icon-left btn-warning mb-4">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
 
-        <div class="card mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Informasi Anggota</h4>
+            </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <table class="table table-bordered">
-                            <tr>
-                                <th>Nama</th>
-                                <td>{{ $anggota->nama }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ $anggota->email }}</td>
-                            </tr>
-                            <tr>
-                                <th>No HP</th>
-                                <td>{{ $anggota->no_hp }}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat</th>
-                                <td>{{ $anggota->alamat }}</td>
-                            </tr>
-                            <tr>
-                                <th>Program Studi</th>
-                                <td>{{ $anggota->prodi }}</td>
-                            </tr>
-                            <tr>
-                                <th>Jurusan</th>
-                                <td>{{ $anggota->jurusan }}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>Nama</th>
+                                    <td>{{ $data->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <th>NIM</th>
+                                    <td>{{ $data->nim }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ $data->email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No. HP</th>
+                                    <td>{{ $data->no_hp }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Alamat</th>
+                                    <td>{{ $data->alamat }}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <table class="table table-bordered">
-                            <tr>
-                                <th>Tahun Kepengurusan</th>
-                                <td>{{ $anggota->tahun_kepengurusan }}</td>
-                            </tr>
-                            <tr>
-                                <th>Jabatan</th>
-                                <td>{{ ucfirst($anggota->jabatan) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama Divisi</th>
-                                <td>{{ $anggota->divisi->nama_divisi ?? 'Tidak ada' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>{{ ucfirst($anggota->status) }}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>Program Studi</th>
+                                    <td>{{ $data->prodi }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Jurusan</th>
+                                    <td>{{ $data->jurusan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tahun Kepengurusan</th>
+                                    <td>{{ $data->tahun_kepengurusan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Divisi</th>
+                                    <td>{{ $data->divisi->nama_divisi ?? 'Tidak ada' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        <span class="badge {{ $data->status === 'diterima' ? 'badge-success' : ($data->status === 'ditolak' ? 'badge-danger' : 'badge-secondary') }}">
+                                            {{ ucfirst($data->status) ?? 'Belum Diproses' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-                </div>
-
-                <div class="form-group mt-4">
-                    <a href="{{ route('anggota.edit', $anggota->id) }}" class="btn btn-icon icon-left btn-warning">
-                        <i class="fas fa-edit"></i> Edit Anggota
-                    </a>
                 </div>
             </div>
         </div>

@@ -19,4 +19,9 @@ class Divisi extends Model
     {
         return $this->belongsTo(Organisasi::class, 'id_organisasi');
     }
+
+    public function pendaftarans()
+    {
+        return $this->hasOne(Divisi::class, 'id_organisasi');
+    }
 }

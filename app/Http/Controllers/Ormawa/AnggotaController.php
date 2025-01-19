@@ -5,142 +5,119 @@ namespace App\Http\Controllers\Ormawa;
 use App\Http\Controllers\Controller;
 use App\Models\Anggota;
 use App\Models\Divisi;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
 
 class AnggotaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $id_organisasi = session('id_organisasi');
 
+        // Validasi sesi organisasi
         if (!$id_organisasi) {
             return redirect('/login')->withErrors('ID organisasi tidak ditemukan dalam sesi. Silakan login ulang.');
         }
 
-        $data = Anggota::with(['divisi', 'organisasi'])
-            ->where('id_organisasi', $id_organisasi)
-            ->get();
+        // Query dasar untuk mengambil data berdasarkan id_organisasi
+        $query = Pendaftaran::with(['divisi', 'organisasi'])
+            ->where('id_organisasi', $id_organisasi);
+
+        // Tambahkan filter pencarian berdasarkan NIM jika ada
+        if ($request->has('nim') && $request->nim) {
+            $query->where('nim', 'like', '%' . $request->nim . '%');
+        }
+
+        // Tambahkan filter pencarian berdasarkan status_daftar jika ada
+        if ($request->has('status_daftar') && $request->status_daftar) {
+            $query->where('status_daftar', $request->status_daftar);
+        }
+
+        // Eksekusi query untuk mendapatkan data
+        $data = $query->get();
 
         return view('pages.ormawa.anggota.index', compact('data'));
     }
 
-    public function create()
-    {
-        $id_organisasi = session('id_organisasi');
-
-        if (!$id_organisasi) {
-            Alert::error('Gagal!', 'ID organisasi tidak ditemukan dalam sesi.');
-            return redirect()->back();
-        }
-
-        $divisi = Divisi::where('id_organisasi', $id_organisasi)->get();
-
-        return view('pages.ormawa.anggota.create', compact('divisi', 'id_organisasi'));
-    }
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nama' => 'required|string|max:255',
-            'nim' => 'required|string|max:20|unique:anggotas,nim,' . ($id ?? 'NULL') . ',id',
-            'email' => 'required|email|unique:anggotas,email,' . ($id ?? 'NULL') . ',id',
-            'no_hp' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
-            'prodi' => 'required|string|max:255',
-            'jurusan' => 'required|string|max:255',
-            'tahun_kepengurusan' => 'required|integer',
-            'jabatan' => 'required|in:ketum,waketum,sekretaris,bendaharara,anggota',
-            'id_divisi' => 'nullable|exists:divisis,id',
-            'status' => 'required|in:aktif,non aktif',
-
-        ]);
-
-        if ($validator->fails()) {
-            Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $anggota = Anggota::create([
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-            'prodi' => $request->prodi,
-            'jurusan' => $request->jurusan,
-            'tahun_kepengurusan' => $request->tahun_kepengurusan,
-            'jabatan' => $request->jabatan,
-            'id_divisi' => $request->id_divisi,
-            'status' => $request->status,
-            'id_organisasi' => session('id_organisasi'),
-        ]);
-
-        Alert::success('Berhasil!', 'Anggota berhasil ditambahkan.');
-        return redirect()->route('ormawa.anggota');
-    }
-
-    public function edit($id)
-    {
-        $anggota = Anggota::findOrFail($id);
-
-        if ($anggota->id_organisasi != session('id_organisasi')) {
-            Alert::error('Error!', 'Anda tidak berhak mengakses data ini.');
-            return redirect()->route('ormawa.anggota');
-        }
-
-        $divisi = Divisi::where('id_organisasi', session('id_organisasi'))->get();
-
-        return view('pages.ormawa.anggota.edit', compact('anggota', 'divisi'));
-    }
-
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        // Validasi input
+        $request->validate([
             'nama' => 'required|string|max:255',
-            'nim' => 'required|string|max:20|unique:anggotas,nim,' . ($id ?? 'NULL') . ',id',
-            'email' => 'required|email|unique:anggotas,email,' . ($id ?? 'NULL') . ',id',
+            'nim' => 'required|string|max:50|unique:pendaftarans,nim,' . $id,
+            'email' => 'required|email|unique:pendaftarans,email,' . $id,
             'no_hp' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
+            'alamat' => 'required|string',
             'prodi' => 'required|string|max:255',
             'jurusan' => 'required|string|max:255',
-            'tahun_kepengurusan' => 'required|integer',
-            'jabatan' => 'required|in:ketum,waketum,sekretaris,bendaharara,anggota',
-            'id_divisi' => 'nullable|exists:divisis,id',
+            'tahun_kepengurusan' => 'required|integer|min:1900|max:' . date('Y'),
+            'jabatan' => 'required|in:anggota',
+            'id_divisi' => 'required|integer|exists:divisis,id',
             'status' => 'required|in:aktif,non aktif',
+            'motivasi' => 'required|string|max:1000',
+            'cv' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'nilai' => 'required|string|max:3',
         ]);
 
-        if ($validator->fails()) {
-            Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back()->withErrors($validator)->withInput();
+        try {
+            $pendaftaran = Pendaftaran::findOrFail($id);
+
+            if ($request->hasFile('cv')) {
+                if ($pendaftaran->cv) {
+                    Storage::disk('public')->delete($pendaftaran->cv);
+                }
+                $cvPath = $request->file('cv')->store('cv', 'public');
+            } else {
+                $cvPath = $pendaftaran->cv;
+            }
+
+            $pendaftaran->update([
+                'nama' => $request->nama,
+                'nim' => $request->nim,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp,
+                'alamat' => $request->alamat,
+                'prodi' => $request->prodi,
+                'jurusan' => $request->jurusan,
+                'tahun_kepengurusan' => $request->tahun_kepengurusan,
+                'jabatan' => $request->jabatan,
+                'id_divisi' => $request->id_divisi,
+                'status' => $request->status,
+                'motivasi' => $request->motivasi,
+                'cv' => $cvPath,
+            ]);
+
+            Alert::success('Data Anggota Berhasil Diubah');
+            return redirect()->route('ormawa.anggota')->with('success', 'Pendaftaran berhasil diperbarui.');
+        } catch (\Exception $e) {
+            report($e);
+            Alert::error('Data Anggota Gagal Diubah');
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.']);
         }
-
-        $anggota = Anggota::findOrFail($id);
-
-        if ($anggota->id_organisasi != session('id_organisasi')) {
-            Alert::error('Error!', 'Anda tidak berhak mengakses data ini.');
-            return redirect()->route('ormawa.anggota');
-        }
-
-        $anggota->update($request->all());
-
-        Alert::success('Berhasil!', 'Anggota berhasil diperbarui.');
-        return redirect()->route('ormawa.anggota');
     }
 
     public function delete($id)
     {
-        $anggota = Anggota::findOrFail($id);
+        $pendaftaran = Pendaftaran::findOrFail($id);
 
-        if ($anggota->id_organisasi != session('id_organisasi')) {
+        if ($pendaftaran->id_organisasi != session('id_organisasi')) {
             Alert::error('Error!', 'Anda tidak berhak mengakses data ini.');
             return redirect()->route('ormawa.anggota');
         }
 
-        $anggota->delete();
+        $pendaftaran->delete();
 
         Alert::success('Berhasil!', 'Anggota berhasil dihapus.');
-        return redirect()->route('ormawa.anggota');
+        return redirect()->route('ormawa.pendaftaran');
+    }
+
+    public function detail ($id)
+    {
+        $data = Pendaftaran::findOrFail($id);
+
+        return view('pages.ormawa.anggota.detail', compact('data'));
     }
 }

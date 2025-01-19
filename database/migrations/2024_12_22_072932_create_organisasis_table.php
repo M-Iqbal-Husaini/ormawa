@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->text('visi')->nullable();
             $table->text('misi')->nullable();
+            $table->boolean('info_button')->default(true);
             $table->timestamps();
         });
     }

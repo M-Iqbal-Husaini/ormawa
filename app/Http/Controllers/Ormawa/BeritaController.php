@@ -7,8 +7,8 @@ use App\Models\Berita;
 use App\Models\Organisasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
@@ -90,8 +90,6 @@ class BeritaController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'penulis' => 'required|string|max:255',
-            'id_organisasi' => 'required|exists:organisasis,id',
         ]);
 
         if ($validator->fails()) {
@@ -103,20 +101,25 @@ class BeritaController extends Controller
 
         // Proses upload gambar jika ada
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($berita->image) {
+                Storage::delete('public/' . $berita->image);
+            }
+
+            // Proses upload gambar baru
             $imagePath = $request->file('image')->store('images', 'public');
-            $berita->image = $imagePath; // Update gambar
+            $berita->image = $imagePath;
         }
 
+        // Update data lainnya
         $berita->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'penulis' => $request->penulis,
-            'id_organisasi' => $request->id_organisasi,
         ]);
 
         if ($berita) {
             Alert::success('Berhasil!', 'Berita berhasil diperbarui!');
-            return redirect()->route('pages.ormawa.berita.index');
+            return redirect()->route('ormawa.berita');
         } else {
             Alert::error('Gagal!', 'Berita gagal diperbarui!');
             return redirect()->back();
@@ -135,5 +138,12 @@ class BeritaController extends Controller
             Alert::error('Gagal!', 'Berita gagal dihapus!');
             return redirect()->route('ormawa.berita');
         }
+    }
+
+    public function show($id)
+    {
+        $berita = Berita::with('organisasi')->findOrFail($id);
+
+        return view('pages.ormawa.berita.detail', compact('berita'));
     }
 }

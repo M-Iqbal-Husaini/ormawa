@@ -1,5 +1,7 @@
 @extends('layouts.admin.main')
+
 @section('title', 'Admin Detail Ormawa')
+
 @section('content')
 <div class="main-content">
     <section class="section">
@@ -12,22 +14,48 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.ormawa') }}" class="btn btn-icon icon-left btn-warning"><i class="fas fa-arrow-left"></i> Kembali</a>
+        <a href="{{ route('admin.ormawa') }}" class="btn btn-icon icon-left btn-warning mb-4">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
 
-        <div class="row mt-4">
-            <div class="col-12 col-md-4 col-lg-12 m-auto">
-                <article class="article article-style-c">
-                    <div class="article-header">
-                        <div class="article-details">
-                            <div class="article-category"><a href="#">{{ $data->id_organisasi }}</a><div class="bullet"></div>
-                                <a href="#">{{ $data->email }}</a>
+        <div class="row">
+            <!-- Informasi Admin Ormawa -->
+            <div class="col-12 col-md-8 col-lg-8 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h4 class="mb-0">{{ $data->name }}</h4>
+                        <small class="text-light">Admin dari Organisasi: <strong>{{ $data->organisasi->nama }}</strong></small>
+                    </div>
+                    <div class="card-body">
+                        <!-- Informasi Admin -->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table class="table table-borderless mt-3">
+                                    <tr>
+                                        <th style="width: 30%;">Nama Lengkap</th>
+                                        <td>: {{ $data->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Username</th>
+                                        <td>: {{ $data->username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>: {{ $data->email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Organisasi</th>
+                                        <td>: {{ $data->organisasi->nama }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Bergabung</th>
+                                        <td>: {{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                                    </tr>
+                                </table>
                             </div>
-                            <p>
-                                {{ $data->name }}
-                            </p>
                         </div>
                     </div>
-                </article>
+                </div>
             </div>
         </div>
     </section>

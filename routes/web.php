@@ -42,7 +42,7 @@ Route::group(['middleware' => 'admin'], function() {
     Route::get('/organisasi', [OrganisasiController::class, 'index'])->name('admin.organisasi');
     Route::get('/organisasi/create', [OrganisasiController::class, 'create'])->name('organisasi.create');
     Route::post('/organisasi/store', [OrganisasiController::class, 'store'])->name('organisasi.store');
-    Route::get('/organisasi/detail/{id}', [OrganisasiController::class, 'detail'])->name('organisasi.detail');
+    Route::get('/organisasi/detail/{id}', [OrganisasiController::class, 'show'])->name('organisasi.show');
     Route::get('/organisasi/edit/{id}', [OrganisasiController::class, 'edit'])->name('organisasi.edit');
     Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])->name('organisasi.update');
     Route::delete('/organisasi/delete/{id}', [OrganisasiController::class, 'delete'])->name('organisasi.delete');
@@ -53,7 +53,7 @@ Route::group(['middleware' => 'admin'], function() {
     Route::post('admin/ormawa/store', [OrmawaController::class, 'store'])->name('ormawa.store');
     Route::get('admin/ormawa/ormawa/detail/{id}', [OrmawaController::class, 'detail'])->name('ormawa.detail');
     Route::get('admin/ormawa/edit/{id}', [OrmawaController::class, 'edit'])->name('ormawa.edit');
-    Route::post('admin/ormawa/update/{id}', [OrmawaController::class, 'update'])->name('ormawa.update');
+    Route::put('admin/ormawa/update/{id}', [OrmawaController::class, 'update'])->name('ormawa.update');
     Route::delete('admin/ormawa/delete/{id}', [OrmawaController::class, 'delete'])->name('ormawa.delete');
 
     Route::get('/admin-logout', [AuthController::class, 'admin_logout'])->name('admin.logout');
@@ -62,6 +62,7 @@ Route::group(['middleware' => 'admin'], function() {
 // Admin Ormawa Route
 Route::group(['middleware' => 'ormawa'], function() {
     Route::get('/ormawa', [AdminOrmawaController::class, 'dashboard'])->name('ormawa.dashboard');
+    Route::post('infoButton/{id_organisasi}', [AdminOrmawaController::class, 'infoButton'])->name('dashboard.infoButton');
 
     // Divisi Route
     Route::get('/divisi', [DivisiController::class, 'index'])->name('ormawa.divisi');
@@ -74,9 +75,7 @@ Route::group(['middleware' => 'ormawa'], function() {
 
     // Anggota Route
     Route::get('/anggota', [AnggotaController::class, 'index'])->name('ormawa.anggota');
-    Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
-    Route::post('/anggota/store', [AnggotaController::class, 'store'])->name('anggota.store');
-    Route::get('/ormawa/anggota/detail/{id}', [AnggotaController::class, 'detail'])->name('anggota.detail');
+    Route::get('/anggota/detail/{id}', [AnggotaController::class, 'detail'])->name('anggota.detail');
     Route::get('/anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota.edit');
     Route::put('/anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota.update');
     Route::delete('/anggota/delete/{id}', [AnggotaController::class, 'delete'])->name('anggota.delete');
@@ -85,27 +84,30 @@ Route::group(['middleware' => 'ormawa'], function() {
     Route::get('/berita', [BeritaController::class, 'index'])->name('ormawa.berita');
     Route::get('/berita/create', [BeritaController::class, 'create'])->name('berita.create');
     Route::post('/berita/store', [BeritaController::class, 'store'])->name('berita.store');
-    Route::get('/ormawa/berita/detail/{id}', [BeritaController::class, 'detail'])->name('berita.detail');
+    Route::get('/ormawa/berita/detail/{id}', [BeritaController::class, 'show'])->name('berita.show');
     Route::get('/berita/edit/{id}', [BeritaController::class, 'edit'])->name('berita.edit');
-    Route::post('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
+    Route::put('/berita/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
     Route::delete('/berita/delete/{id}', [BeritaController::class, 'delete'])->name('berita.delete');
 
     // Pendaftaran Route
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('ormawa.pendaftaran');
+    Route::post('pendaftaran/{id}/status/{status}', [PendaftaranController::class, 'status'])->name('pendaftaran.status');
     Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
     Route::post('/pendaftaran/store', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
     Route::get('/ormawa/pendaftaran/detail/{id}', [PendaftaranController::class, 'detail'])->name('pendaftaran.detail');
     Route::get('/pendaftaran/edit/{id}', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
-    Route::post('/pendaftaran/update/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
+    Route::put('/pendaftaran/update/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
+    Route::get('/pendaftaran/{id}/tambah-nilai', [PendaftaranController::class, 'tambahNilai'])->name('pendaftaran.tambah-nilai');
+    Route::put('/pendaftaran/{id}/update-nilai', [PendaftaranController::class, 'updateNilai'])->name('pendaftaran.update-nilai');
     Route::delete('/pendaftaran/delete/{id}', [PendaftaranController::class, 'delete'])->name('pendaftaran.delete');
 
     // Wa Link
     Route::get('whatsapp', [LinkController::class, 'index'])->name('ormawa.whatsapp');
     Route::get('whatsapp/create', [LinkController::class, 'create'])->name('whatsapp.create');
     Route::post('whatsapp', [LinkController::class, 'store'])->name('whatsapp.store');
-    Route::get('whatsapp/{id}/edit', [LinkController::class, 'edit'])->name('ormawa.whatsapp.edit');
-    Route::put('whatsapp/{id}', [LinkController::class, 'update'])->name('ormawa.whatsapp.update');
-    Route::delete('whatsapp/{id}', [LinkController::class, 'delete'])->name('ormawa.whatsapp.delete');
+    Route::get('whatsapp/{id}/edit', [LinkController::class, 'edit'])->name('whatsapp.edit');
+    Route::put('whatsapp/{id}', [LinkController::class, 'update'])->name('whatsapp.update');
+    Route::delete('whatsapp/{id}', [LinkController::class, 'delete'])->name('whatsapp.delete');
 
 
     Route::get('/ormawa-logout', [AuthController::class, 'ormawa_logout'])->name('ormawa.logout');
@@ -118,12 +120,14 @@ Route::group(['middleware' => 'user'], function() {
 
     Route::get('/user/organisasi', [OrgController::class, 'index'])->name('user.organisasi');
     Route::get('/user/organisasi/{id}', [OrgController::class, 'detail'])->name('organisasi.detail');
+    Route::get('/organisasi/{id_organisasi}/pengumuman', [OrgController::class, 'info'])->name('organisasi.info');
+    Route::get('/organisasi/download-pdf/{id_organisasi}', [OrgController::class, 'downloadPdf'])->name('organisasi.downloadPdf');
 
     Route::get('/user/daftar', [UserController::class, 'pendaftaran'])->name('user.pendaftaran');
     Route::get('/pendaftaran/create/{id_organisasi?}', [PendaftarController::class, 'create'])->name('pendaftaran.create');
     Route::post('/user/pendaftaran/store', [PendaftarController::class, 'store'])->name('pendaftaran.store');
     Route::get('/pendaftaran/get-divisi/{id}', [PendaftarController::class, 'divisi']);
-    Route::get('/pendaftaran/success', [PendaftarController::class, 'success'])->name('pendaftaran.success');
+    Route::get('/user/pendaftaran/success', [PendaftarController::class, 'success'])->name('pendaftaran.success');
 
     Route::get('/user/berita', [NewsController::class, 'index'])->name('user.berita');
     Route::get('/berita/{id}', [NewsController::class, 'detail'])->name('berita.detail');

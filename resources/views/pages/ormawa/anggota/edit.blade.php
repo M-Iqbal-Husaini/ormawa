@@ -1,102 +1,141 @@
 @extends('layouts.ormawa.main')
-@section('title', 'Edit Anggota')
+
 @section('content')
 <div class="main-content">
     <section class="section">
         <div class="section-header">
             <h1>Edit Anggota</h1>
-
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="{{ route('ormawa.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('ormawa.anggota') }}">Anggota</a></div>
-                <div class="breadcrumb-item">Edit Anggota</div>
-            </div>
         </div>
-
-        <a href="{{ route('ormawa.anggota') }}" class="btn btn-icon icon-left btn-warning"><i class="fas fa-arrow-left"></i> Kembali</a>
-
-        <div class="card mt-4">
-            <form action="{{ route('anggota.update', $anggota->id) }}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="nama">Nama</label>
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $anggota->nama }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $anggota->email }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="no_hp">No HP</label>
-                                <input id="no_hp" type="text" class="form-control" name="no_hp" value="{{ $anggota->no_hp }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="alamat">Alamat</label>
-                                <input id="alamat" type="text" class="form-control" name="alamat" value="{{ $anggota->alamat }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="prodi">Program Studi</label>
-                                <input id="prodi" type="text" class="form-control" name="prodi" value="{{ $anggota->prodi }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="jurusan">Jurusan</label>
-                                <input id="jurusan" type="text" class="form-control" name="jurusan" value="{{ $anggota->jurusan }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="tahun_kepengurusan">Tahun Kepengurusan</label>
-                                <input id="tahun_kepengurusan" type="number" class="form-control" name="tahun_kepengurusan" value="{{ $anggota->tahun_kepengurusan }}" required>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="jabatan">Jabatan</label>
-                                <select id="jabatan" name="jabatan" class="form-control" required>
-                                    <option value="ketum" {{ $anggota->jabatan == 'ketum' ? 'selected' : '' }}>Ketua Umum</option>
-                                    <option value="waketum" {{ $anggota->jabatan == 'waketum' ? 'selected' : '' }}>Wakil Ketua Umum</option>
-                                    <option value="bendahara" {{ $anggota->jabatan == 'bendahara' ? 'selected' : '' }}>Bendahara</option>
-                                    <option value="sekretaris" {{ $anggota->jabatan == 'sekretaris' ? 'selected' : '' }}>Sekretaris</option>
-                                    <option value="anggota" {{ $anggota->jabatan == 'anggota' ? 'selected' : '' }}>Anggota</option>
-                                </select>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="id_divisi">Nama Divisi</label>
-                                <select id="id_divisi" name="id_divisi" class="form-control" required>
-                                    @foreach ($divisi as $item)
-                                        <option value="{{ $item->id }}" {{ $anggota->id_divisi == $item->id ? 'selected' : '' }}>
-                                            {{ $item->nama_divisi }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                            <input type="hidden" name="id_organisasi" value="{{ $anggota->id_organisasi }}"> <!-- Menyertakan id_organisasi yang sudah ada -->
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select id="status" name="status" class="form-control" required>
-                                    <option value="aktif" {{ $anggota->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="non aktif" {{ $anggota->status == 'non aktif' ? 'selected' : '' }}>Non Aktif</option>
-                                </select>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-icon icon-left btn-primary">
-                        <i class="fas fa-save"></i> Simpan Perubahan
-                    </button>
+        <div class="section-body">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Form Edit Anggota</h4>
                 </div>
-            </form>
+                <div class="card-body">
+                    <form action="{{ route('anggota.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" id="nama" value="{{ old('nama', $data->nama) }}" required>
+                            @error('nama')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nim">NIM</label>
+                            <input type="text" name="nim" class="form-control @error('nim') is-invalid @enderror" id="nim" value="{{ old('nim', $data->nim) }}" required>
+                            @error('nim')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" value="{{ old('email', $data->email) }}" required>
+                            @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="no_hp">No. HP</label>
+                            <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" value="{{ old('no_hp', $data->no_hp) }}" required>
+                            @error('no_hp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat" required>{{ old('alamat', $data->alamat) }}</textarea>
+                            @error('alamat')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodi">Prodi</label>
+                            <input type="text" name="prodi" class="form-control @error('prodi') is-invalid @enderror" id="prodi" value="{{ old('prodi', $data->prodi) }}" required>
+                            @error('prodi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jurusan">Jurusan</label>
+                            <input type="text" name="jurusan" class="form-control @error('jurusan') is-invalid @enderror" id="jurusan" value="{{ old('jurusan', $data->jurusan) }}" required>
+                            @error('jurusan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tahun_kepengurusan">Tahun Kepengurusan</label>
+                            <input type="number" name="tahun_kepengurusan" class="form-control @error('tahun_kepengurusan') is-invalid @enderror" id="tahun_kepengurusan" value="{{ old('tahun_kepengurusan', $data->tahun_kepengurusan) }}" required>
+                            @error('tahun_kepengurusan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jabatan">Jabatan</label>
+                            <select name="jabatan" id="jabatan" class="form-control @error('jabatan') is-invalid @enderror" required>
+                                <option value="anggota" {{ old('jabatan', $data->jabatan) == 'anggota' ? 'selected' : '' }}>Anggota</option>
+                            </select>
+                            @error('jabatan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_divisi">Divisi</label>
+                            <select name="id_divisi" id="id_divisi" class="form-control @error('id_divisi') is-invalid @enderror" required>
+                                @foreach($divisi as $div)
+                                <option value="{{ $div->id }}" {{ old('id_divisi', $data->id_divisi) == $div->id ? 'selected' : '' }}>
+                                    {{ $div->nama }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('id_divisi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
+                                <option value="aktif" {{ old('status', $data->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="non aktif" {{ old('status', $data->status) == 'non aktif' ? 'selected' : '' }}>Non Aktif</option>
+                            </select>
+                            @error('status')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="motivasi">Motivasi</label>
+                            <textarea name="motivasi" class="form-control @error('motivasi') is-invalid @enderror" id="motivasi" required>{{ old('motivasi', $data->motivasi) }}</textarea>
+                            @error('motivasi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cv">CV (Biarkan kosong jika tidak ingin mengganti)</label>
+                            <input type="file" name="cv" class="form-control-file @error('cv') is-invalid @enderror" id="cv" accept=".pdf,.doc,.docx">
+                            @error('cv')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="{{ route('ormawa.anggota') }}" class="btn btn-secondary">Kembali</a>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 </div>

@@ -21,13 +21,15 @@ return new class extends Migration
             $table->string('prodi');
             $table->string('jurusan');
             $table->year('tahun_kepengurusan');
-            $table->enum('jabatan', ['anggota'])->default('anggota');
+            $table->enum('jabatan', ['anggota', 'ketua', 'wakil ketua', 'bendahara', 'sekretaris'])->default('anggota');
             $table->unsignedBigInteger('id_divisi');
             $table->unsignedBigInteger('id_organisasi');
+            $table->unsignedBigInteger('id_user')->nullable();
             $table->enum('status', ['aktif', 'non aktif'])->default('aktif');
             $table->text('motivasi')->nullable(); // Pastikan kolom ini nullable jika tidak wajib
             $table->string('cv');
             $table->enum('status_daftar', ['Pending', 'Diterima', 'Ditolak'])->default('Pending');
+            $table->string('nilai')->nullable();
             $table->timestamps();
         });
     }

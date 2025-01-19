@@ -1,6 +1,6 @@
 @extends('layouts.guest.main')
 @section('content')
-<section class="banner-area" style="background-image: url('{{ asset('assets/templates/logo/logo.jpeg') }}'); background-size: cover; background-position: center; height: 150px;"></section>
+<section class="banner-area" style="background-image: url('{{ asset('assets/templates/logo/logo.jpeg') }}'); background-size: cover; background-position: center; height: 300px;"></section>
 
 <div class="container mx-auto text-center">
     <h1 class="text-3xl font-bold mt-6">DAFTAR <span class="text-orange-500">ORMAWA</span></h1>

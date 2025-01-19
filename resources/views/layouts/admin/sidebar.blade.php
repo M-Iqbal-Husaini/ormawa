@@ -14,8 +14,8 @@
             <li class="{{ Request::is('organisasi*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.organisasi') }}"><i class="fas fa-box"></i> <span>Organisasi</span></a>
             </li>
-            <li class="{{ Request::is('ormawa*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.ormawa') }}"><i class="fas fa-box"></i> <span>Admin Ormawa</span></a>
+            <li class="{{ Request::is('admin/ormawa*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.ormawa') }}"><i class="fas fa-user"></i> <span>Admin Ormawa</span></a>
             </li>
         </ul>
     </aside>

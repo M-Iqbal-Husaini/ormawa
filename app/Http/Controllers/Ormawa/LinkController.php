@@ -40,8 +40,7 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_organisasi' => 'required|exists:organisasis,id',
-            'link' => 'required|string|max:255',
+            'link' => 'required|url|max:255', // Validasi harus URL valid
         ]);
 
         if ($validator->fails()) {
@@ -56,17 +55,18 @@ class LinkController extends Controller
             return redirect()->back();
         }
 
-        $link = Link::create([
-            'link' => $request->link,
-            'id_organisasi' => $id_organisasi,
-        ]);
+        try {
+            // Simpan link WhatsApp ke database
+            Link::create([
+                'link' => $request->link,
+                'id_organisasi' => $id_organisasi,
+            ]);
 
-        if ($link) {
             Alert::success('Berhasil!', 'Link berhasil ditambahkan.');
             return redirect()->route('ormawa.whatsapp');
-        } else {
-            Alert::error('Gagal!', 'Link gagal ditambahkan.');
-            return redirect()->back();
+        } catch (\Exception $e) {
+            Alert::error('Gagal!', 'Terjadi kesalahan saat menyimpan link.');
+            return redirect()->back()->withInput();
         }
     }
 
@@ -89,6 +89,7 @@ class LinkController extends Controller
             'link' => $request->link,
         ]);
 
+        Alert::success('Berhasil!', 'Link berhasil diubah.');
         return redirect()->route('ormawa.whatsapp.index')->with('success', 'WhatsApp group link updated successfully!');
     }
 
@@ -98,6 +99,7 @@ class LinkController extends Controller
         $link = Link::findOrFail($id);  // Find the link by ID
         $link->delete();
 
+        Alert::success('Berhasil!', 'Link berhasil dihapus.');
         return redirect()->route('ormawa.whatsapp.index')->with('success', 'WhatsApp group link deleted successfully!');
     }
 }

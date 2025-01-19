@@ -100,6 +100,10 @@ class OrganisasiController extends Controller
             $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
+        // Proses upload gambar baru
+        $imagePath = $request->file('image')->store('images', 'public');
+        $organisasi->logo = $imagePath;
+
         // Mengubah misi menjadi array
         $misiArray = explode("\n", $request->misi);
 
@@ -140,4 +144,15 @@ class OrganisasiController extends Controller
             return redirect()->back();
         }
     }
+
+    public function show($id)
+    {
+        $organisasi = Organisasi::findOrFail($id);
+
+        // Pastikan misi adalah array, jika disimpan sebagai JSON
+        $organisasi->misi = json_decode($organisasi->misi);
+
+        return view('pages.admin.organisasi.detail', compact('organisasi'));
+    }
+
 }

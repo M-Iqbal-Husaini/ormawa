@@ -4,11 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Divisi;
+use App\Models\User;
 use App\Models\Organisasi;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PendaftarController extends Controller
 {
@@ -45,6 +47,20 @@ class PendaftarController extends Controller
         ]);
 
         try {
+            // Cek apakah user sudah ada berdasarkan nama dan email
+            $user = User::where('nama', $request->nama)
+                        ->where('email', $request->email)
+                        ->first();
+
+            // Jika user tidak ada, buat user baru
+            if (!$user) {
+                $user = User::create([
+                    'nama' => $request->nama,
+                    'email' => $request->email,
+                    'password' => bcrypt(Str::random(12)), // Password sementara
+                ]);
+            }
+
             // Proses upload file CV
             $cvPath = $request->file('cv')->store('cv', 'public');
 
@@ -64,26 +80,30 @@ class PendaftarController extends Controller
                 'status' => $request->status,
                 'motivasi' => $request->motivasi,
                 'cv' => $cvPath,
+                'id_user' => $user->id, // Menyimpan id_user berdasarkan user yang ditemukan
             ]);
 
             // Redirect ke halaman sukses
             $organisasi = Organisasi::find($request->id_organisasi);
+            Alert::success('Berhasil!', 'Pendaftaran berhasil dilakukan.');
             return redirect()->route('pendaftaran.success', [
-                'organisasi' => $organisasi,
-                'email' => $request->email
+                'id_organisasi' => $organisasi->id,
+                'email' => $request->email,
             ]);
 
         } catch (\Exception $e) {
             // Tangkap error dan laporkan
             report($e);
+            Alert::error('Gagal!', 'Pendaftaran gagal dilakukan.');
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.']);
         }
     }
 
+
     public function success(Request $request)
     {
-        // Ambil ID organisasi dari query string
-        $idOrganisasi = $request->query('organisasi');
+        // Ambil ID organisasi dan email dari query string
+        $idOrganisasi = $request->query('id_organisasi');
         $email = $request->query('email');
 
         // Cari data organisasi berdasarkan ID
@@ -95,6 +115,4 @@ class PendaftarController extends Controller
 
         return view('pages.user.pendaftaran.success', compact('organisasi', 'email'));
     }
-
-
 }

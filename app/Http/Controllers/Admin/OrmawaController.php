@@ -79,41 +79,42 @@ class OrmawaController extends Controller
             'name' => 'required',
             'username' => 'required',
             'email' => 'required|email:dns',
-            'password' => 'required|min:8|max:15',
+            'password' => 'nullable|min:8|max:15', // Opsional
         ]);
 
         if ($validator->fails()) {
             Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $ormawas = Ormawa::findOrFail($id);
 
-        $ormawas->update([
+        // Update data
+        $data = [
             'id_organisasi' => $request->id_organisasi,
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        ];
 
-        if ($ormawas) {
-            Alert::success('Berhasil!', 'Admin Ormawa berhasil diperbarui!');
-            return redirect()->route('admin.ormawa');
-        } else {
-            Alert::error('Gagal!', 'Admin Ormawa gagal diperbarui!');
-            return redirect()->back();
+        // Update password jika ada input
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
         }
+
+        $ormawas->update($data);
+
+        Alert::success('Berhasil!', 'Admin Ormawa berhasil diperbarui!');
+        return redirect()->route('admin.ormawa');
     }
 
     public function detail($id)
     {
-        $data = DB::table('organisasis')
-        ->join('ormawas', 'organisasis.id', '=', 'ormawas.id_organisasi')
-        ->select('organisasis.*', 'ormawas.*')
-        ->first();
+        $data = Ormawa::with('organisasi')->findOrFail($id);
+
         return view('pages.admin.ormawa.detail', compact('data'));
     }
+
 
     public function delete($id)
     {

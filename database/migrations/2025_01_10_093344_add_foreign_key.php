@@ -32,6 +32,10 @@ return new class extends Migration
             $table->foreign('id_organisasi')->references('id')->on('organisasis')->onDelete('cascade');
         });
 
+        Schema::table('pendaftarans', function (Blueprint $table) {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+        });
+
         Schema::table('wa_links', function (Blueprint $table) {
             $table->foreign('id_organisasi')->references('id')->on('organisasis')->onDelete('cascade');
         });

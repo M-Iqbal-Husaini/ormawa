@@ -81,6 +81,36 @@
         .section_gap {
             padding: 60px 0;
         }
+
+        .login_box_area {
+            background: url('{{ asset('assets/templates/logo/logo.jpeg') }}') no-repeat center center/cover;
+            padding: 10vw; /* Padding awal untuk viewport lebar */
+        }
+
+        @media (max-width: 768px) {
+            .login_box_area {
+                padding: 15vw; /* Padding lebih besar untuk perangkat kecil */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login_box_area {
+                padding: 20vw; /* Padding lebih besar untuk perangkat sangat kecil */
+            }
+        }
+
+        .login_form_inner {
+            background: rgba(255, 255, 255, 0.9); /* Tambahkan transparansi untuk kontras */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .login_form_inner h3 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -105,12 +135,17 @@
                             </div>
                             <div class="col-md-12 form-group d-flex justify-content-between">
                                 <a>Belum Punya Akun?</a>
-                                <a href="{{ route('register') }}">Register</a>
+                                <a href="{{ route('register') }}" class="text-primary">Register</a>
                             </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" class="primary-btn">Log In</button>
                             </div>
+                            <!-- Tambahkan tombol kembali ke index -->
+                            <div class="col-md-12 form-group">
+                                <a href="/" class="secondary-btn" >Kembali</a>
+                            </div>
                         </form>
+
                     </div>
                 </div>
             </div>

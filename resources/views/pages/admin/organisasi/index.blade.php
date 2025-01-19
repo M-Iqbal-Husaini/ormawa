@@ -39,13 +39,23 @@
                             <td>{{ $item->kategori }}</td>
                             <td>{{  \Illuminate\Support\Str::words($item->deskripsi, 10) }}</td>
                             <td>
-                                <a href="{{ route('organisasi.detail', $item->id) }}" class="badge badge-info">Detail</a>
-                                <a href="{{ route('organisasi.edit', $item->id) }}" class="badge badge-warning">Edit</a>
-                                <form action="{{ route('organisasi.delete', $item->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <a href="javascript:void(0);" class="badge badge-danger" onclick="this.closest('form').submit();">Hapus</a>
-                                </form>
+                                <!-- Dropdown for Actions -->
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="actionDropdown{{ $item->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Aksi
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="actionDropdown{{ $item->id }}">
+                                        <a href="{{ route('organisasi.show', $item->id) }}" class="dropdown-item"><i class="fas fa-eye"></i> Detail</a>
+                                        <a href="{{ route('organisasi.edit', $item->id) }}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
+                                        <form action="{{ route('organisasi.delete', $item->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @empty

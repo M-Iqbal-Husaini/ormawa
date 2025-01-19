@@ -47,7 +47,7 @@
                     <i class="far fa-calendar-alt"></i>
                     {{ $berita->created_at->format('d M Y') }}
                     <i class="fas fa-user ml-2"></i>
-                    {{ $berita->penulis }}
+                    {{ $berita->organisasi->kategori }}
                 </div>
                 <h3 class="text-sm md:text-base font-semibold mb-2 mt-0">
                     <a href="{{ route('berita.detail', $berita->id) }}" class="text-gray-800 hover:text-blue-500 transition">
